@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>${PRODUCT_NAME}</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <!-- Inserisci qui le informazioni relative agli URL Types se necessario -->
+        </dict>
+    </array>
+    <key>NSCameraUsageDescription</key>
+    <string>Questa app richiede l'accesso alla fotocamera per scansionare documenti.</string>
+</dict>
+</plist>

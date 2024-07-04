@@ -2,7 +2,7 @@
 //  ScannerView.swift
 //  Scan-Ocr
 //
-//  Created by Haaris Iqubal on 5/21/21.
+//   Created by d0x1t on 02/07/2024.
 //
 
 import VisionKit
@@ -58,6 +58,7 @@ struct ScannerView: UIViewControllerRepresentable {
         //è questa.
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
             print("Document camera view controller did finish with ", scan)
+            //in scan sono contenute le immagini scannerizzate
             let recognizer = TextRecognizer(cameraScan: scan)
             recognizer.recognizeText(withCompletionHandler: completionHandler)
         }

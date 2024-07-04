@@ -2,7 +2,7 @@
 //  ScanData.swift
 //  Scan-Ocr
 //
-//  Created by Haaris Iqubal on 5/21/21.
+//   Created by d0x1t on 02/07/2024.
 //
 
 import Foundation
@@ -10,9 +10,13 @@ import Foundation
 
 struct ScanData:Identifiable {
     var id = UUID()
-    let content:String
+    var content:String
     
     init(content:String) {
         self.content = content
     }
-}
+    mutating func addLineBreaks() {
+         self.content = self.content.replacingOccurrences(of: "%", with: "%\n")
+     }
+ }
+

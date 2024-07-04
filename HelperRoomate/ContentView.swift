@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Scan-Ocr
 //
-//  Created by Haaris Iqubal on 5/21/21.
+//  Created by d0x1t on 02/07/2024.
 //
 
 import SwiftUI
@@ -56,8 +56,10 @@ struct ContentView: View {
             //dobbiamo unire tutte le scansioni fatte. le unisco e come separatore
             //metto un semplice \n
             if let outputText = textPerPage?.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines){
-                let newScanData = ScanData(content: outputText)
+                var newScanData = ScanData(content: outputText)
+                newScanData.addLineBreaks()
                 self.texts.append(newScanData)
+                
             }
             //chiudo lo scanner
             self.showScannerSheet = false

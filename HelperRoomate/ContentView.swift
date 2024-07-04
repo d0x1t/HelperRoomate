@@ -57,7 +57,7 @@ struct ContentView: View {
             //metto un semplice \n
             if let outputText = textPerPage?.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines){
                 var newScanData = ScanData(content: outputText)
-                newScanData.addLineBreaks()
+                //newScanData.addLineBreaks()
                 self.texts.append(newScanData)
                 
             }

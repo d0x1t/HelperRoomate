@@ -46,8 +46,32 @@ final class TextRecognizer {
                     guard let observations = request.results else { return "" }
                     
                     //per ogni VNRecognizedTextObservation contenuto nell'array observations viene eseguita la funzione di compactMap (funziona come map solo che salta i nil) siccome siamo in un iteratore $0 significa elemento corrente. topCandidates(1) è un metodo di VNRecognizedTextObservation che restituisce un array dei migliori candidati di testo riconosciuto, ordinati per affidabilità. ci andiamo a prendere il 1 array e poi con first prendiamo il primo elemento dell'array e restituiamo la stringa. siccome compactMap itera su più elementi dell'array perché una foto è composta da molti pezzi di testo joined unisce tutti gli elementi con lo spazio.
-                    return observations.compactMap({ $0.topCandidates(1).first?.string }).joined(separator: " ")
-                } catch {
+                    //NUOVA AGGIUNTA. Mi sono accorto che ogni frammento letto veniva poi recuperato in modo casuale facendo cosi si inizia a fare la scansione dall'alto verso il basso e soprattutto da sinistra verso destra.
+                    let sortedObservations = observations.sorted {
+                                            if $0.boundingBox.origin.y == $1.boundingBox.origin.y {
+                                                return $0.boundingBox.origin.x < $1.boundingBox.origin.x
+                                            } else {
+                                                return $0.boundingBox.origin.y > $1.boundingBox.origin.y
+                                            }
+                                        }
+                    // Accesso alle informazioni di testo e posizione
+                    for observation in sortedObservations {
+                        guard let topCandidate = observation.topCandidates(1).first else { continue }
+                        let text = topCandidate.string
+                        let boundingBox = observation.boundingBox
+                        //NOTA: boundingBox.x mi dice la posizione della parte sinistra del box di testo riconosciuta. quindi un valore pari a 0.2 significa che il lato sinistro della bounding box si trova al 20% della larghezza dell'immagine, partendo dal lato sinistro dell'immagine.boundinxBox.y 0.3, significa che il lato superiore della bounding box si trova al 30% dell'altezza dell'immagine, partendo dall'alto dell'immagine.
+                        
+                        // Stampiamo il testo e la posizione
+                        print("Testo: \(text)")
+                         print("Posizione (Bounding Box):")
+                        print("- Origine X: \(boundingBox.origin.x)")
+                        print("- Origine Y: \(boundingBox.origin.y)")
+                        print("- Larghezza: \(boundingBox.size.width)")
+                        print("- Altezza: \(boundingBox.size.height)")
+                        print("----------------")
+                    }
+                                        return sortedObservations.compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")
+                                    }  catch {
                     print(error)
                     return ""
                 }

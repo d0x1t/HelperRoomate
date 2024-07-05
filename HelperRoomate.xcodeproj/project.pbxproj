@@ -10,6 +10,7 @@
 		1F54B6DF2C382FD200BC427A /* Coinquilino.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54B6DE2C382FD200BC427A /* Coinquilino.swift */; };
 		1F54B6E12C382FE000BC427A /* Spesa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54B6E02C382FE000BC427A /* Spesa.swift */; };
 		1F54B6E32C382FF500BC427A /* AggiungiSpesa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54B6E22C382FF500BC427A /* AggiungiSpesa.swift */; };
+		1F88F2E02C3834AB0018631F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88F2DF2C3834AB0018631F /* ContentView.swift */; };
 		1FF568AA2C348720007B7A38 /* HelperRoomateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF568A92C348720007B7A38 /* HelperRoomateApp.swift */; };
 		1FF568AC2C348720007B7A38 /* Fotocamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF568AB2C348720007B7A38 /* Fotocamera.swift */; };
 		1FF568AE2C348722007B7A38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FF568AD2C348722007B7A38 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		1F54B6DE2C382FD200BC427A /* Coinquilino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coinquilino.swift; sourceTree = "<group>"; };
 		1F54B6E02C382FE000BC427A /* Spesa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spesa.swift; sourceTree = "<group>"; };
 		1F54B6E22C382FF500BC427A /* AggiungiSpesa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggiungiSpesa.swift; sourceTree = "<group>"; };
+		1F88F2DF2C3834AB0018631F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1FF568A62C348720007B7A38 /* HelperRoomate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelperRoomate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FF568A92C348720007B7A38 /* HelperRoomateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperRoomateApp.swift; sourceTree = "<group>"; };
 		1FF568AB2C348720007B7A38 /* Fotocamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fotocamera.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				1FF568B72C3487A5007B7A38 /* ScanData.swift */,
 				1FF568B92C3487B6007B7A38 /* ScannerView.swift */,
 				1F54B6DE2C382FD200BC427A /* Coinquilino.swift */,
+				1F88F2DF2C3834AB0018631F /* ContentView.swift */,
 				1F54B6E02C382FE000BC427A /* Spesa.swift */,
 				1F54B6E22C382FF500BC427A /* AggiungiSpesa.swift */,
 				1FF568BB2C3487CA007B7A38 /* TextRecognizer.swift */,
@@ -162,6 +165,7 @@
 				1FF568BA2C3487B6007B7A38 /* ScannerView.swift in Sources */,
 				1F54B6DF2C382FD200BC427A /* Coinquilino.swift in Sources */,
 				1FF568BC2C3487CA007B7A38 /* TextRecognizer.swift in Sources */,
+				1F88F2E02C3834AB0018631F /* ContentView.swift in Sources */,
 				1F54B6E32C382FF500BC427A /* AggiungiSpesa.swift in Sources */,
 				1FF568AA2C348720007B7A38 /* HelperRoomateApp.swift in Sources */,
 				1FF568B82C3487A5007B7A38 /* ScanData.swift in Sources */,

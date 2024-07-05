@@ -12,6 +12,7 @@ import VisionKit
 final class TextRecognizer {
     var descrizioni: [String]
     var iva: [Int]
+    var prezzo: [Double]
     let cameraScan: VNDocumentCameraScan
     var arrayContenitore: [Double: (descrizione: String, iva: Int, prezzo: Double)]
     
@@ -20,6 +21,7 @@ final class TextRecognizer {
         self.arrayContenitore = [:] // Inizializziamo con un dizionario vuoto
         self.iva = []
         self.descrizioni = []
+        self.prezzo = []
     }
     
     private let queue = DispatchQueue(label: "scan-codes", qos: .default, attributes: [], autoreleaseFrequency: .workItem)
@@ -89,9 +91,10 @@ final class TextRecognizer {
                                     }
                                        for observation in sortedObservations {
                                            guard let topCandidate = observation.topCandidates(1).first else { continue }
-                                           let text = topCandidate.string
+                                           var text = topCandidate.string
+                                           text = text.replacingOccurrences(of: ",", with: ".")
                                            let boundingBox = observation.boundingBox
-                                           let roundedY = (boundingBox.origin.y * 100).rounded() / 100
+                                        
                                            
                                            print("Testo: \(text)")
                                            print("Posizione (Bounding Box):")
@@ -101,37 +104,27 @@ final class TextRecognizer {
                                            print("- Altezza: \(boundingBox.size.height)")
                                            print("----------------")
                                            
-                                           if let _ = text.range(of: #"\d+%"#, options: .regularExpression) {
+                                           //Controlla se l'espressione corrente matcha il pattern numeri + %
+                                           if let _ = text.range(of: #"\d+%"#, options: .regularExpression){
+                                               //Prova a togliere % e converte il numero in intero
                                                if let ivaValue = Int(text.trimmingCharacters(in: CharacterSet(charactersIn: "%"))) {
-                                                   if var existingEntry = arrayContenitore[roundedY] {
-                                                       existingEntry.iva = ivaValue
-                                                       arrayContenitore[roundedY] = existingEntry
-                                                   } else {
-                                                       arrayContenitore[roundedY] = ("", ivaValue, 0.0)
-                                                   }
+                                                   self.iva.append(ivaValue)
                                                }
+                                               //prova a fare la conversione del text in double quindi riesce solo se
+                                               //il text contiene solo un numero
                                            } else if let prezzoValue = Double(text) {
-                                               if var existingEntry = arrayContenitore[roundedY] {
-                                                   existingEntry.prezzo = prezzoValue
-                                                   arrayContenitore[roundedY] = existingEntry
-                                               } else {
-                                                   arrayContenitore[roundedY] = ("", 0, prezzoValue)
-                                               }
+                                               self.prezzo.append(prezzoValue)
                                            } else {
-                                               if boundingBox.origin.x < minXForIVA {
-                                                   if var existingEntry = arrayContenitore[roundedY] {
-                                                       existingEntry.descrizione = text
-                                                       arrayContenitore[roundedY] = existingEntry
-                                                   } else {
-                                                       arrayContenitore[roundedY] = (text, 0, 0.0)
-                                                   }
+                                               
                                                    self.descrizioni.append(text) // Aggiunge la descrizione all'array descrizioni
                                                }
                                            }
-                                       }
                                        
-                                       print(arrayContenitore)
-                                       print(descrizioni) // Stampa le descrizioni raccolte
+                                       
+                                                    print(descrizioni) // Stampa le descrizioni raccolte
+                                                    print(iva)
+                                                    print(prezzo)
+                    
                     return sortedObservations.compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")
                     
                 } catch {

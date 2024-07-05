@@ -11,7 +11,7 @@ import SwiftUI
 struct HelperRoomateApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Fotocamera()
         }
     }
 }

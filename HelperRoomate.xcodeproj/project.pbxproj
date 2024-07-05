@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1FF568AA2C348720007B7A38 /* HelperRoomateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF568A92C348720007B7A38 /* HelperRoomateApp.swift */; };
-		1FF568AC2C348720007B7A38 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF568AB2C348720007B7A38 /* ContentView.swift */; };
+		1FF568AC2C348720007B7A38 /* Fotocamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF568AB2C348720007B7A38 /* Fotocamera.swift */; };
 		1FF568AE2C348722007B7A38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FF568AD2C348722007B7A38 /* Assets.xcassets */; };
 		1FF568B12C348722007B7A38 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FF568B02C348722007B7A38 /* Preview Assets.xcassets */; };
 		1FF568B82C3487A5007B7A38 /* ScanData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF568B72C3487A5007B7A38 /* ScanData.swift */; };
@@ -19,7 +19,7 @@
 /* Begin PBXFileReference section */
 		1FF568A62C348720007B7A38 /* HelperRoomate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelperRoomate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FF568A92C348720007B7A38 /* HelperRoomateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperRoomateApp.swift; sourceTree = "<group>"; };
-		1FF568AB2C348720007B7A38 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1FF568AB2C348720007B7A38 /* Fotocamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fotocamera.swift; sourceTree = "<group>"; };
 		1FF568AD2C348722007B7A38 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FF568B02C348722007B7A38 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1FF568B72C3487A5007B7A38 /* ScanData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanData.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 			children = (
 				1FF568BD2C355504007B7A38 /* Info.plist */,
 				1FF568A92C348720007B7A38 /* HelperRoomateApp.swift */,
-				1FF568AB2C348720007B7A38 /* ContentView.swift */,
+				1FF568AB2C348720007B7A38 /* Fotocamera.swift */,
 				1FF568B72C3487A5007B7A38 /* ScanData.swift */,
 				1FF568B92C3487B6007B7A38 /* ScannerView.swift */,
 				1FF568BB2C3487CA007B7A38 /* TextRecognizer.swift */,
@@ -148,7 +148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FF568AC2C348720007B7A38 /* ContentView.swift in Sources */,
+				1FF568AC2C348720007B7A38 /* Fotocamera.swift in Sources */,
 				1FF568BA2C3487B6007B7A38 /* ScannerView.swift in Sources */,
 				1FF568BC2C3487CA007B7A38 /* TextRecognizer.swift in Sources */,
 				1FF568AA2C348720007B7A38 /* HelperRoomateApp.swift in Sources */,

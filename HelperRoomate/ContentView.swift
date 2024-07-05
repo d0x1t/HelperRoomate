@@ -66,19 +66,30 @@ struct ContentView: View {
         )
     ]
     
+    @State var coinquilini = [
+        Coinquilino(nome: "Mario", cognome: "Rossi", username: "mario@example.com", hashedPassword: "1", abitazione: 1),
+        Coinquilino(nome: "Giulia", cognome: "Verdi", username: "giulia@example.com", hashedPassword: "1", abitazione: 1),
+        Coinquilino(nome: "Luca", cognome: "Bianchi", username: "luca@example.com", hashedPassword: "1", abitazione: 1)
+    ]
+    
     @State var selection: Int = 0
     var body: some View {
         TabView(selection: $selection) {
-            Lista(immagini: $immagini)
-                .tabItem { Label("Immagini", systemImage: "photo")
+            Novita(spese: $spese, coinquilini: $coinquilini)
+                .tabItem { Label("Novita", systemImage: "photo")
                     .accentColor(.primary)}
             
                 .tag(0)
-            ListaModifiche(immagini: $immagini)
-                .tabItem { Label("Modifiche", systemImage: "paintpalette")
+            Report(spese: $spese, coinquilini: $coinquilini)
+                .tabItem { Label("Report", systemImage: "paintpalette")
                         .accentColor(.primary)
                 }
                 .tag(1)
+            AggiungiSpesa(spese: $spese, coinquilini: $coinquilini)
+                .tabItem { Label("Aggiungi Spesa", systemImage: "paintpalette")
+                        .accentColor(.primary)
+                }
+                .tag(2)
         }
     }
 }

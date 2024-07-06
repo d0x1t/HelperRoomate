@@ -56,7 +56,7 @@ struct Fotocamera: View {
             //dobbiamo unire tutte le scansioni fatte. le unisco e come separatore
             //metto un semplice \n
             if let outputText = textPerPage?.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines){
-                var newScanData = ScanData(content: outputText)
+                let newScanData = ScanData(content: outputText)
                 //newScanData.addLineBreaks()
                 self.texts.append(newScanData)
                 

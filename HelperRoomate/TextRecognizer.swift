@@ -10,9 +10,9 @@ import Vision
 import VisionKit
 
 final class TextRecognizer {
-    var descrizioni: [String]
+    var descrizioni: [(Double,String)]
     var iva: [Int]
-    var prezzo: [Double]
+    var prezzo: [(Double, Double)]
     let cameraScan: VNDocumentCameraScan
     var arrayContenitore: [Double: (descrizione: String, iva: Int, prezzo: Double)]
     
@@ -63,66 +63,150 @@ final class TextRecognizer {
                         }
                     }
                     
+                    //Calcolo della posizione di inizio iva
                     var minXForIVA: CGFloat = CGFloat.greatestFiniteMagnitude
+                    var posizioneYDiPartenzaDettagli:  CGFloat = CGFloat.greatestFiniteMagnitude
+                   
+                    var primaLettura = true
                                         for observation in sortedObservations {
                                             guard let topCandidate = observation.topCandidates(1).first else { continue }
                                             let text = topCandidate.string
                                             let boundingBox = observation.boundingBox
                                             
                                             if text.contains("%") {
-                                                if let _ = text.range(of: #"^\d+%$"#    , options: .regularExpression) {
+                                                if let _ = text.range(of: #"^\d+%$"#, options: .regularExpression) {
                                                     minXForIVA = min(minXForIVA, boundingBox.origin.x)
                                                     print("Aggiornato minXForIVA a: \(minXForIVA) per testo: \(text)")
                                                 }
                                             }
                                         }
+                    //******************************************//
+                    
+                    //Calcolo della posizione di inizio Price
                     var minXForPrice: CGFloat = CGFloat.greatestFiniteMagnitude
+                    var minYForPrice: CGFloat = CGFloat.greatestFiniteMagnitude
+                    
                                         for observation in sortedObservations {
                                         guard let topCandidate = observation.topCandidates(1).first else { continue }
                                         let text = topCandidate.string
                                         let boundingBox = observation.boundingBox
+                                        let coordinataX = observation.boundingBox.origin.x
                         
                                         
-                                        if let _ = text.range(of: #"^\d+([.,]\d+)?%$"#, options: .regularExpression) {
-                                        minXForPrice = min(minXForIVA, boundingBox.origin.x)
-                                        print("Aggiornato maxForPrice a: \(minXForIVA) per testo: \(text)")
+                                        if let _ = text.range(of: #"^\d+([.,]\d+)?$"#, options: .regularExpression) {
+                                            if(coordinataX > minXForIVA ){
+                                                if(primaLettura){
+                                                    posizioneYDiPartenzaDettagli = boundingBox.origin.y
+                                                    primaLettura = false
+                                                }
+
+                                                minYForPrice = min(minYForPrice,boundingBox.origin.y)
+                                                minXForPrice = min(minXForPrice, boundingBox.origin.x)
+                                                print("Aggiornato minForPrice a: \(minXForIVA) per testo: \(text)")
+                                            }
                                             }
                                         
                                     }
-                                       for observation in sortedObservations {
-                                           guard let topCandidate = observation.topCandidates(1).first else { continue }
-                                           var text = topCandidate.string
-                                           text = text.replacingOccurrences(of: ",", with: ".")
-                                           let boundingBox = observation.boundingBox
-                                        
-                                           
-                                           print("Testo: \(text)")
-                                           print("Posizione (Bounding Box):")
-                                           print("- Origine X: \(boundingBox.origin.x)")
-                                           print("- Origine Y: \(boundingBox.origin.y)")
-                                           print("- Larghezza: \(boundingBox.size.width)")
-                                           print("- Altezza: \(boundingBox.size.height)")
-                                           print("----------------")
-                                           
-                                           //Controlla se l'espressione corrente matcha il pattern numeri + %
-                                           if let _ = text.range(of: #"\d+%"#, options: .regularExpression){
-                                               //Prova a togliere % e converte il numero in intero
-                                               if let ivaValue = Int(text.trimmingCharacters(in: CharacterSet(charactersIn: "%"))) {
-                                                   self.iva.append(ivaValue)
-                                               }
-                                               //prova a fare la conversione del text in double quindi riesce solo se
-                                               //il text contiene solo un numero
-                                           } else if let prezzoValue = Double(text) {
-                                               self.prezzo.append(prezzoValue)
-                                           } else {
-                                               
-                                                   self.descrizioni.append(text) // Aggiunge la descrizione all'array descrizioni
-                                               }
-                                           }
-                                       
-                                       
+                    //******************************************//
+                    
+                    for observation in sortedObservations {
+                        guard let topCandidate = observation.topCandidates(1).first else { continue }
+                        var text = topCandidate.string
+                        text = text.replacingOccurrences(of: ",", with: ".")
+                        let boundingBox = observation.boundingBox
+                        let coordinataX = observation.boundingBox.origin.x
+                        let coordinataY = observation.boundingBox.origin.y
+                        
+                        
+                     print("Testo: \(text)")
+                        print("Posizione (Bounding Box):")
+                        print("- Origine X: \(boundingBox.origin.x)")
+                        print("- Origine Y: \(boundingBox.origin.y)")
+                        print("- Larghezza: \(boundingBox.size.width)")
+                        print("- Altezza: \(boundingBox.size.height)")
+                        print("----------------")
+                        
+                        /*    //Controlla se l'espressione corrente matcha il pattern numeri + %
+                         if let _ = text.range(of: #"\d+%"#, options: .regularExpression){
+                         //Prova a togliere % e converte il numero in intero
+                         if let ivaValue = Int(text.trimmingCharacters(in: CharacterSet(charactersIn: "%"))) {
+                         self.iva.append(ivaValue)
+                         }
+                         //prova a fare la conversione del text in double quindi riesce solo se
+                         //il text contiene solo un numero
+                         } else if let prezzoValue = Double(text) {
+                         self.prezzo.append(prezzoValue)
+                         } else {
+                         
+                         self.descrizioni.append(text) // Aggiunge la descrizione all'array descrizioni
+                         }
+                         }
+                         
+                         */
+                        //Logica per skippare tutte le altre info prima dei dettagli
+                       
+                        
+
+                        //se sono la descrizione allora la coordinataX è minore del minXForIVA
+                        print("I DETTAGLI PARTONO DA")
+                        print(posizioneYDiPartenzaDettagli)
+                        if(coordinataX < minXForIVA){
+                            
+                            if(coordinataY > posizioneYDiPartenzaDettagli){
+                                continue
+                            }
+                                                        // Controlla se il testo contiene il simbolo di percentuale
+                            if let percentRange = text.range(of: "%", options: .backwards) {
+                                // Trova il punto in cui inizia la descrizione (ultimo spazio bianco prima del numero percentuale)
+                                var endIndex = percentRange.lowerBound
+                                while endIndex > text.startIndex && !text[endIndex].isWhitespace {
+                                    endIndex = text.index(before: endIndex)
+                                }
+                                
+                                // Estrai la descrizione e l'IVA
+                                let descrizione = String(text[text.startIndex..<endIndex]).trimmingCharacters(in: .whitespaces)
+                                let ivaString = String(text[text.index(after: endIndex)..<percentRange.upperBound]).trimmingCharacters(in: .whitespaces)
+                                let ivaStringWithoutPercent = ivaString.replacingOccurrences(of: "%", with: "")
+                                print("Ho letto una stringa con la percentuale")
+                                print(ivaString)
+                                
+                                // Converti l'IVA da String a Int
+                                if let ivaValue = Int(ivaStringWithoutPercent) {
+                                    self.iva.append(ivaValue)
+                                }
+                                
+                                // Aggiungi la descrizione
+                                self.descrizioni.append((coordinataY, descrizione))
+                                continue
+                            } else {
+                                // Se non viene trovato il simbolo di percentuale, aggiungi l'intero testo come descrizione
+                                self.descrizioni.append((coordinataY,text))
+                                continue
+                            }
+                        }
+
+                        
+                        //Sono sicuro che la descrizione viene aggiunta prima quindi per essere l'iva allora
+                        //la coordinata x è sicuramente minore di quella del prezzo.
+                       
+                        if(coordinataX < minXForPrice){
+                            if let ivaValue = Int(text.trimmingCharacters(in: CharacterSet(charactersIn: "%"))) {
+                                self.iva.append(ivaValue)
+                                continue
+                            }
+                        } else if(coordinataX > minXForIVA){
+                            if let prezzoValue = Double(text) {
+                                self.prezzo.append((coordinataY, prezzoValue))
+                                prezzo.sort { $0.0 > $1.0 }
+                            }
+                        }
+                            }
+                    //stabilisco l'ordine dei prezzi in base alla cordinata y.
+                        
+                                                    print("DESCRIZIONI")
                                                     print(descrizioni) // Stampa le descrizioni raccolte
-                                                    print(iva)
+                    print("-----------------------------")
+                    print(self.iva)
                                                     print(prezzo)
                     
                     return sortedObservations.compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")

@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct WelcomeScreen: View {
+struct LogReg: View {
+    
     @State private var email: String = "" // by default it's empty
     var body: some View {
         ZStack {
@@ -56,9 +57,9 @@ struct WelcomeScreen: View {
     }
 }
 
-struct WelcomeScreenView_Previews: PreviewProvider {
+struct LogReg_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeScreen()
+        LogReg()
     }
 }
 

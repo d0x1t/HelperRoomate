@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Login: View {
+struct WelcomeScreen: View {
     var colore = Color(red: 57 / 255, green: 128 / 255, blue: 216 / 255)
     var body: some View {
         NavigationView {
@@ -80,8 +80,8 @@ struct Login: View {
     }
 }
 
-struct Login_Previews: PreviewProvider {
+struct WelcomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        Login()
+        WelcomeScreen()
     }
 }

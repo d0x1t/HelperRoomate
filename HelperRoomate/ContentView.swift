@@ -7,10 +7,19 @@
 
 import SwiftUI
 
-struct Fotocamera: View {
+struct ContentView: View {
     @State private var showScannerSheet = false
     @State private var texts:[ScanData] = []
+    @AppStorage("log_status") var logStatus = false
     var body: some View {
+        if logStatus{
+            HomePage()
+        } else {
+            WelcomeScreen()
+        }
+    }
+    @ViewBuilder
+    func HomePage()->some View{
         NavigationView{
             VStack{
                 if texts.count > 0{
@@ -28,18 +37,18 @@ struct Fotocamera: View {
                     Text("No scan yet").font(.title)
                 }
             }
-                .navigationTitle("Scan OCR")
+            .navigationTitle("Scan OCR")
             //Aggiunge un pulsante sulla destra(trailing)
-                .navigationBarItems(trailing: Button(action: {
-                    self.showScannerSheet = true
-                }, label: {
-                    Image(systemName: "doc.text.viewfinder")
-                        .font(.title)
-                })
-                    .sheet(isPresented: $showScannerSheet, content: {
+            .navigationBarItems(trailing: Button(action: {
+                self.showScannerSheet = true
+            }, label: {
+                Image(systemName: "doc.text.viewfinder")
+                    .font(.title)
+            })
+                .sheet(isPresented: $showScannerSheet, content: {
                     self.makeScannerView()
                 })
-                )
+            )
         }
     }
     /* NOTA: textPerPage è un array che contiene tutto il testo di ogni scansione
@@ -69,6 +78,6 @@ struct Fotocamera: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        Fotocamera()
+        ContentView()
     }
 }

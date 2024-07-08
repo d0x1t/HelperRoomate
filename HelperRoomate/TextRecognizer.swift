@@ -129,7 +129,7 @@ final class TextRecognizer {
                         guard let topCandidate = observation.topCandidates(1).first else { continue }
                         var text = topCandidate.string
                         text = text.replacingOccurrences(of: ",", with: ".")
-                        let boundingBox = observation.boundingBox
+                        _ = observation.boundingBox
                         let coordinataX = observation.boundingBox.origin.x
                         let coordinataY = observation.boundingBox.origin.y
 

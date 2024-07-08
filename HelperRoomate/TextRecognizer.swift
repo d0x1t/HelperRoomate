@@ -100,16 +100,17 @@ final class TextRecognizer {
                                 let larghezzaNumero = boundingBox.size.width
                                 let altezzaNumero = boundingBox.size.height
                                 
-                                if((larghezzaNumero + altezzaNumero) > altezzaDelTotale){
-                                    altezzaDelTotale = larghezzaNumero + altezzaNumero
-                                    text = text.replacingOccurrences(of: ",", with: ".")
-                                    
-                                    if let possibilePrezzoTotale = Double(text){
-                                    possibiliTotali.append(possibilePrezzoTotale)
-                                    }
-                                }
                                             
                                 if(coordinataX > minXForIVA ){
+                                    if((larghezzaNumero + altezzaNumero) > altezzaDelTotale){
+                                        altezzaDelTotale = larghezzaNumero + altezzaNumero
+                                        text = text.replacingOccurrences(of: ",", with: ".")
+                                        
+                                        if let possibilePrezzoTotale = Double(text){
+                                        possibiliTotali.append(possibilePrezzoTotale)
+                                        }
+                                    }
+
                                     if(primaLettura){
                                         posizioneYDiPartenzaDettagli = boundingBox.origin.y
                                         altezzaDelPrimoPrezzo = boundingBox.size.height
@@ -197,48 +198,53 @@ final class TextRecognizer {
                     var risultato: [(String, Double)] = []
 
                     // Calcola la differenza media dei primi valori (coordinate x)
-                    var sommaDeltaX: Double = 0.0
+                    var sommaDeltaY: Double = 0.0
                     
                     if(prezzo.count == 0){
                         return sortedObservations.compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")
                     }
-                    
-                    for i in 0..<prezzo.count - 1 {
-                        let x1 = prezzo[i].0
-                        let x2 = prezzo[i + 1].0
-                        let deltaX = abs(x2 - x1)
-                        sommaDeltaX += deltaX
-                    }
-
-                    let deltaXMedio = sommaDeltaX / Double(prezzo.count - 1)
-
-                    print("Differenza media dei primi valori (Delta X medio):", deltaXMedio)
-
-                    // Imposta la soglia uguale alla media delle differenze
-                    let soglia = deltaXMedio * 1.5
-
-                    // Itera attraverso l'array prezzo e confronta ogni coppia di valori con la soglia
-                    let numeroDettagli = prezzo.count
-                    for i in 0..<numeroDettagli - 1{
-                        let x1 = prezzo[i].0
-                        let x2 = prezzo[i + 1].0
-                        let differenza = abs(x2 - x1)
+                    if(prezzo.count == 1){
+                        risultato.append((self.descrizioni[0].1,self.prezzo[0].1))
+                        risultato.append(("TOTALE COMPLESSIVO", possibiliTotali.max()!))
+                    }else{
                         
-                        if differenza > soglia {
-                            var stringa1 = descrizioni[i].1
-                            let stringa2 = descrizioni[i+1].1
-                            stringa1.append(" " + stringa2)
-                            descrizioni.remove(at: i+1)
-                            risultato.append((stringa1,self.prezzo[i].1))
-                            print("C'è più spazio tra", x1, "e", x2)
-                        } else {
-                            risultato.append((self.descrizioni[i].1, self.prezzo[i].1))
-                            print("Non c'è più spazio tra", x1, "e", x2)
+                        for i in 0..<prezzo.count - 1 {
+                            let y1 = prezzo[i].0
+                            let y2 = prezzo[i + 1].0
+                            let deltaY = abs(y2 - y1)
+                            sommaDeltaY += deltaY
                         }
+                        
+                        let deltaYMedio = sommaDeltaY / Double(prezzo.count - 1)
+                        
+                        print("Differenza media dei primi valori (Delta Y medio):", deltaYMedio)
+                        
+                        // Imposta la soglia uguale alla media delle differenze
+                        let soglia = deltaYMedio * 1.5
+                        
+                        // Itera attraverso l'array prezzo e confronta ogni coppia di valori con la soglia
+                        let numeroDettagli = prezzo.count
+                        for i in 0..<numeroDettagli - 1{
+                            let x1 = prezzo[i].0
+                            let x2 = prezzo[i + 1].0
+                            let differenza = abs(x2 - x1)
+                            
+                            if differenza > soglia {
+                                var stringa1 = descrizioni[i].1
+                                let stringa2 = descrizioni[i+1].1
+                                stringa1.append(" " + stringa2)
+                                descrizioni.remove(at: i+1)
+                                risultato.append((stringa1,self.prezzo[i].1))
+                                print("C'è più spazio tra", x1, "e", x2)
+                            } else {
+                                risultato.append((self.descrizioni[i].1, self.prezzo[i].1))
+                                print("Non c'è più spazio tra", x1, "e", x2)
+                            }
+                        }
+                        //Possibile errore in runTime
+                        risultato.append((self.descrizioni[numeroDettagli-1].1, self.prezzo[numeroDettagli-1].1))
+                        risultato.append(("TOTALE COMPLESSIVO", possibiliTotali.max()!))
                     }
-                    risultato.append((self.descrizioni[numeroDettagli-1].1, self.prezzo[numeroDettagli-1].1))
-                    risultato.append(("TOTALE COMPLESSIVO", possibiliTotali.max()!))
-
                                                     
                    print("DESCRIZIONI")
                    print(descrizioni)

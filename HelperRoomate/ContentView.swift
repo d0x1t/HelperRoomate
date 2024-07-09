@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var showScannerSheet = false
     @State private var texts:[ScanData] = []
-    @AppStorage("log_status") var logStatus = false
+    @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
         if logStatus{
             HomePage()

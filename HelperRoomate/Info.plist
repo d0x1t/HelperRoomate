@@ -2,15 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleName</key>
-    <string>${PRODUCT_NAME}</string>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
-            <!-- Inserisci qui le informazioni relative agli URL Types se necessario -->
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <!-- Aggiungi qui il tuo schema URL -->
+                <string>com.googleusercontent.apps.193574574677-e35lcafdp7omgkkj1uni9chkhq3amgg9</string>
+            </array>
         </dict>
     </array>
-    <key>NSCameraUsageDescription</key>
-    <string>Questa app richiede l'accesso alla fotocamera per scansionare documenti.</string>
+    <key>GIDClientID</key>
+    <string>193574574677-e35lcafdp7omgkkj1uni9chkhq3amgg9.apps.googleusercontent.com</string>
 </dict>
 </plist>

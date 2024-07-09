@@ -27,6 +27,7 @@ final class TextRecognizer {
     private let queue = DispatchQueue(label: "scan-codes", qos: .default, attributes: [], autoreleaseFrequency: .workItem)
     
     func recognizeText(withCompletionHandler completionHandler: @escaping ([String]) -> Void) {
+        
         queue.async { [self] in
             //(0..<self.cameraScan.pageCount) creo un intervallo da 0 al numero di
             //foto scattate
@@ -69,13 +70,16 @@ final class TextRecognizer {
                     var primaLettura = true
                     for observation in sortedObservations {
                         guard let topCandidate = observation.topCandidates(1).first else { continue }
-                        let text = topCandidate.string
+                        var text = topCandidate.string
                                             
                         let boundingBox = observation.boundingBox
                                         
                         if text.contains("%") {
+                            text = text.replacingOccurrences(of: ",", with: ".")
                             posizioneYDiFineDettagli = boundingBox.origin.y
-                            if let _ = text.range(of: #"^\d+%$"#, options: .regularExpression) {
+                            
+                            if let _ = text.range(of: "^\\d+(\\.\\d+)?%$", options: .regularExpression) {
+                                
                                 minXForIVA = min(minXForIVA, boundingBox.origin.x)
                                 print("Aggiornato minXForIVA a: \(minXForIVA) per testo: \(text)")
                             }
@@ -191,6 +195,7 @@ final class TextRecognizer {
                                 prezzo.sort { $0.0 > $1.0 }
                             }
                         }
+                        
                     }//COMMIT For
                     
                     //UNISCO GLI ARRAY ->
@@ -230,6 +235,7 @@ final class TextRecognizer {
                             let differenza = abs(x2 - x1)
                             
                             if differenza > soglia {
+                                //Questa logica puo essere utile se ci sono due righe di descrizione
                                 var stringa1 = descrizioni[i].1
                                 let stringa2 = descrizioni[i+1].1
                                 stringa1.append(" " + stringa2)
@@ -241,8 +247,11 @@ final class TextRecognizer {
                                 print("Non c'è più spazio tra", x1, "e", x2)
                             }
                         }
-                        //Possibile errore in runTime
-                        risultato.append((self.descrizioni[numeroDettagli-1].1, self.prezzo[numeroDettagli-1].1))
+                        
+                        //siccome sopra faccion il confronto a due a due e inserisco il primo succede che l'ultimo elemento non viene aggiunto quindi lo faccio ora
+                        if numeroDettagli > 0 && numeroDettagli <= self.descrizioni.count && numeroDettagli <= self.prezzo.count {
+                            risultato.append((self.descrizioni[numeroDettagli-1].1, self.prezzo[numeroDettagli-1].1))
+                        }
                         risultato.append(("TOTALE COMPLESSIVO", possibiliTotali.max()!))
                     }
                                                     
